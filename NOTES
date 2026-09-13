@@ -1,0 +1,35 @@
+OpenAI API key from an environment variable called OPENAI_API_KEY, but that variable isn't set (or isn't visible to this terminal session).
+
+Fix — set the environment variable
+
+Option 1: Set it temporarily (only lasts for the current PowerShell session)
+
+powershell
+$env:OPENAI_API_KEY = "sk-your-key-here"
+
+Then run your script again in that same terminal window.
+
+Option 2: Set it permanently (Windows user-level env var)
+
+powershell
+setx OPENAI_API_KEY "sk-your-key-here"
+
+Note: after using setx, you need to close and reopen your terminal (and re-activate your venv) for it to take effect — it won't apply to the currently open window.
+
+Option 3: Use a .env file (common for projects)
+
+Install python-dotenv:
+   pip install python-dotenv
+Create a .env file in your project folder:
+   OPENAI_API_KEY=sk-your-key-here
+At the top of your script, add:
+python
+   from dotenv import load_dotenv
+   load_dotenv()
+
+before the line that calls os.getenv("OPENAI_API_KEY").
+4. Make sure .env is in your .gitignore if this is version-controlled, so you don't accidentally commit your key.
+
+Where to get your key: if you don't have one yet, generate it at https://platform.openai.com/api-keys
+
+Any of these three should resolve it — the .env approach (Option 3) is generally the most convenient if you're going to be running this script repeatedly.
